@@ -86,7 +86,6 @@
                 result = [self popOperandOffProgramStack:stack] / divisor;
         } else if ([top isEqualToString:@"pi"]) {
             result = M_PI;
-            [self popOperandOffProgramStack:stack];
         } else if ([top isEqualToString:@"sin"]) {
             result = sin([self popOperandOffProgramStack:stack]);
         } else if ([top isEqualToString:@"cos"]) {
