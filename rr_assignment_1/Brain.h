@@ -10,9 +10,12 @@
 
 @interface Brain : NSObject
 
+@property (nonatomic,readonly) id program;
+
 - (void) pushOperand: (double) operand;
 - (double) performOperation: (NSString*) operation;
 - (void) clear;
 
-
++ (double) popOperandOffProgramStack:(NSMutableArray*) stack;
++ (double) runProgram: (id) program;
 @end
