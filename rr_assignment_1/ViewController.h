@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *display;
 @property (weak, nonatomic) IBOutlet UILabel *details;
+@property (weak, nonatomic) IBOutlet UILabel *varLabel;
 
 
 

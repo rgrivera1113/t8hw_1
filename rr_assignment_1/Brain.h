@@ -13,9 +13,15 @@
 @property (nonatomic,readonly) id program;
 
 - (void) pushOperand: (double) operand;
+- (void) pushVariable: (NSString*) variable;
 - (double) performOperation: (NSString*) operation;
+- (double) performOperation:(NSString *)operation withVariables:(id)variables;
 - (void) clear;
+- (void) undo;
 
 + (double) popOperandOffProgramStack:(NSMutableArray*) stack;
 + (double) runProgram: (id) program;
++ (double) runProgram: (id) program usingVariableValues: (NSDictionary*) variables;
++ (NSSet*) variablesUsedInProgram: (id) program;
++ (NSString*) descriptionOfProgram:(id) program;
 @end
