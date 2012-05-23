@@ -24,7 +24,6 @@
 @synthesize entryInProgress = _entryInProgress;
 @synthesize brain = _brain;
 @synthesize variables = _variables;
-@synthesize varLabel = _varLabel;
 
 - (Brain*) brain {
     
@@ -81,29 +80,6 @@
         self.details.text = [self.details.text stringByAppendingString:[NSString stringWithFormat:@" %@",value]];
 }
 
-- (void) appendVariableString {
-    
-    NSSet* usedVariables = [[self.brain class] variablesUsedInProgram:self.brain.program];
-    
-    NSString* varDisplay = [[NSString alloc] initWithString:@""];
-    
-    if (usedVariables) {
-        
-        for (id items in usedVariables){
-            if ([items isKindOfClass:[NSString class]]) {
-                varDisplay = [varDisplay stringByAppendingFormat:@"%@ = %f ",
-                              items,[[self.variables valueForKey:items] doubleValue]];
-            }
-                
-        }
-        
-    }
-    
-    self.varLabel.text = varDisplay;
-    
-    
-}
-
 - (IBAction)enterPressed {
 
     [self.brain pushOperand:[display.text doubleValue]];
@@ -137,40 +113,17 @@
     [self.brain pushVariable:[sender currentTitle]];
     self.details.text = [[self.brain class] descriptionOfProgram:[self.brain program]];
     
-    [self appendVariableString];
 }
 
 - (IBAction)clearPressed {
     
     self.display.text = @"0";
     self.details.text = @"";
-    self.varLabel.text = @"";
     self.entryInProgress = NO;
     [self.brain clear];
     
 }
-- (IBAction)runTest:(UIButton*)sender {
 
-    // Set up variable values.
-    if ([[sender currentTitle] isEqualToString:@"T1"]){
-        [self.variables setValue:[[NSNumber alloc] initWithDouble:1] forKey:@"a"];
-        [self.variables setValue:[[NSNumber alloc] initWithDouble:1] forKey:@"b"];
-        [self.variables setValue:[[NSNumber alloc] initWithDouble:1] forKey:@"x"];
-    } else if ([[sender currentTitle] isEqualToString:@"T2"]){
-        [self.variables setValue:[[NSNumber alloc] initWithDouble:2] forKey:@"a"];
-        [self.variables setValue:[[NSNumber alloc] initWithDouble:3] forKey:@"b"];
-        [self.variables setValue:[[NSNumber alloc] initWithDouble:4] forKey:@"x"];
-    } else if ([[sender currentTitle] isEqualToString:@"T3"]){
-        [self.variables setValue:[[NSNumber alloc] initWithDouble:5] forKey:@"a"];
-        [self.variables setValue:[[NSNumber alloc] initWithDouble:6] forKey:@"b"];
-        [self.variables setValue:[[NSNumber alloc] initWithDouble:7] forKey:@"x"];
-    }
-    self.display.text = [NSString stringWithFormat:@"%f",
-                         [[self.brain class] runProgram:[self.brain program] usingVariableValues:self.variables]];
-    self.details.text = [[self.brain class] descriptionOfProgram:[self.brain program]];
-    [self appendVariableString];    
-
-}
 - (IBAction)undo {
     
     if (self.entryInProgress) {
