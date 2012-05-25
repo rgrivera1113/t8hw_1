@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol CalculatorBrain
+
++ (double) runProgram: (id) program usingVariableValues: (NSDictionary*) variables;
++ (NSString*) descriptionOfProgram:(id) program;
+
+@end
+
 @interface Brain : NSObject
 
 @property (nonatomic,readonly) id program;

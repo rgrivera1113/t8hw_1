@@ -375,7 +375,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Calculator" id="0TP-Q5-TVa"/>
+                    <navigationItem key="navigationItem" title="Calculator" id="0TP-Q5-TVa">
+                        <barButtonItem key="rightBarButtonItem" title="Graph" id="88w-8Q-MnY">
+                            <connections>
+                                <segue destination="guc-1P-6er" kind="push" identifier="ShowGraph" id="z8Y-OH-1AA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="details" destination="ALM-NF-URp" id="eom-cP-XH1"/>
@@ -384,6 +390,33 @@
                 </viewController>
             </objects>
             <point key="canvasLocation" x="654" y="91"/>
+        </scene>
+        <scene sceneID="R9p-cc-Ks9">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Et8-Qk-42e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="guc-1P-6er" customClass="GraphVC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OsU-M2-dRX">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="redraw" id="WoN-NA-fX0" customClass="GraphView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="delegate" destination="guc-1P-6er" id="M9r-BD-Akf"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="liX-bw-ytr"/>
+                    <connections>
+                        <outlet property="graphView" destination="WoN-NA-fX0" id="9bh-eX-vNJ"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1091" y="92"/>
         </scene>
         <scene sceneID="2bD-KY-xUl">
             <objects>
@@ -404,12 +437,23 @@
         </scene>
     </scenes>
     <classes>
+        <class className="GraphVC" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphVC.h"/>
+            <relationships>
+                <relationship kind="outlet" name="graphView" candidateClass="GraphView"/>
+            </relationships>
+        </class>
+        <class className="GraphView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="delegate"/>
+            </relationships>
+        </class>
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="details" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="display" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="varLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
     </classes>

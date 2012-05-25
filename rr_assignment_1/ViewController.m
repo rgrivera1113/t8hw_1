@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "GraphVC.h"
 #import "Brain.h"
 
 @interface ViewController()
@@ -143,6 +144,19 @@
         self.details.text = [[self.brain class] descriptionOfProgram:[self.brain program]];
 
     }
+    
+}
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString:@"ShowGraph"]) {
+        
+        // Give the new view controller the program stack.
+        [(GraphVC*) segue.destinationViewController setProgram:[[self.brain program] copy]];
+        [(GraphVC*) segue.destinationViewController setTitle:[[self.brain class] descriptionOfProgram:[self.brain program]]];
+        
+    }
+    
     
 }
 
