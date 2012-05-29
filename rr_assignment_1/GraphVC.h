@@ -11,6 +11,6 @@
 
 @interface GraphVC : UIViewController
 
-@property (nonatomic,weak) NSArray* program; 
+@property (nonatomic,strong) NSArray* program; 
 
 @end

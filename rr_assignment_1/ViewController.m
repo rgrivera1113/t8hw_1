@@ -152,7 +152,7 @@
     if ([segue.identifier isEqualToString:@"ShowGraph"]) {
         
         // Give the new view controller the program stack.
-        [(GraphVC*) segue.destinationViewController setProgram:[[self.brain program] copy]];
+        [(GraphVC*) segue.destinationViewController setProgram:[self.brain program]];
         [(GraphVC*) segue.destinationViewController setTitle:[[self.brain class] descriptionOfProgram:[self.brain program]]];
         
     }

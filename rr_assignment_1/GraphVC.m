@@ -75,7 +75,7 @@
     midpoint.x = self.graphView.bounds.origin.x + self.graphView.bounds.size.width/2;
     midpoint.y = self.graphView.bounds.origin.y + self.graphView.bounds.size.height/2;
     self.graphView.origin = midpoint;
-    self.graphView.scale = (CGFloat) 1;
+    self.graphView.scale = (CGFloat) 5;
     // Set up gesture recognizers here.
     [self.graphView addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self.graphView action:@selector(pinch:)]];
     [self.graphView addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self.graphView action:@selector(pan:)]];
@@ -88,7 +88,7 @@
 }
 - (void) setProgram:(NSArray *)program {
     
-    _program = program;
+    _program = [program copy];
     [self.graphView setNeedsDisplay];
     
 }
