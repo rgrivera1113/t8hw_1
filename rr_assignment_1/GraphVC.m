@@ -72,10 +72,22 @@
     
     _graphView = graphView;
     CGPoint midpoint;
-    midpoint.x = self.graphView.bounds.origin.x + self.graphView.bounds.size.width/2;
-    midpoint.y = self.graphView.bounds.origin.y + self.graphView.bounds.size.height/2;
-    self.graphView.origin = midpoint;
-    self.graphView.scale = (CGFloat) 5;
+    // Attempt to retrieve origin and scale data from user defaults.
+    float savedScale = [[NSUserDefaults standardUserDefaults] floatForKey:@"calcScale"];
+    if (savedScale)
+        self.graphView.scale = (CGFloat) savedScale;
+    else
+        self.graphView.scale = (CGFloat) 10;
+    
+    NSData* originData = [[NSUserDefaults standardUserDefaults] objectForKey:@"calcOrigin"];
+    NSValue* savedOrigin = [NSKeyedUnarchiver unarchiveObjectWithData:originData];
+    if (savedOrigin) {
+        self.graphView.origin = [savedOrigin CGPointValue];
+    } else {
+        midpoint.x = self.graphView.bounds.origin.x + self.graphView.bounds.size.width/2;
+        midpoint.y = self.graphView.bounds.origin.y + self.graphView.bounds.size.height/2;
+        self.graphView.origin = midpoint;
+    }
     // Set up gesture recognizers here.
     [self.graphView addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self.graphView action:@selector(pinch:)]];
     [self.graphView addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self.graphView action:@selector(pan:)]];

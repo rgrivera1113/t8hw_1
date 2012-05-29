@@ -37,9 +37,20 @@
     
     if (_origin.x != origin.x || _origin.y != origin.y) {
         _origin = origin;
+        
         [self setNeedsDisplay];
     }
     
+}
+
+- (void) updateDefaultScaleAndOrigin {
+    
+    // Save new scale and origin to user defaults.
+    NSValue* newOrigin = [NSValue valueWithCGPoint:self.origin];
+    NSData* newOriginData = [NSKeyedArchiver archivedDataWithRootObject:newOrigin];;
+    [[NSUserDefaults standardUserDefaults] setFloat:_scale forKey:@"calcScale"];
+    [[NSUserDefaults standardUserDefaults] setObject:newOriginData forKey:@"calcOrigin"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - Gesture recognizers.
@@ -51,13 +62,12 @@
         (gesture.state == UIGestureRecognizerStateEnded)) {
         self.scale *= gesture.scale; 
         gesture.scale = 1;
+        
     }
     
-//    if (gesture.state == UIGestureRecognizerStateEnded) {
-//        
-//        NSLog(@"Origin after pan: x = %f, y = %f",self.origin.x, self.origin.y);
-//        
-//    }
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        [self updateDefaultScaleAndOrigin];
+    }
 }
 
 - (void) pan: (UIPanGestureRecognizer*) gesture {
@@ -70,18 +80,19 @@
         [gesture setTranslation: CGPointMake(0, 0) inView:self];
     }
     
-//    if (gesture.state == UIGestureRecognizerStateEnded) {
-//        
-//        NSLog(@"Origin at end of pan: x = %f, y = %f",self.origin.x, self.origin.y);
-//        
-//    }
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        
+        [self updateDefaultScaleAndOrigin];
+    }
     
 }
 
 - (void) tap: (UITapGestureRecognizer*) gesture {
     
-    if (gesture.state == UIGestureRecognizerStateEnded)
+    if (gesture.state == UIGestureRecognizerStateEnded) {
         [self setOrigin:[gesture locationInView:self]];
+        [self updateDefaultScaleAndOrigin];
+    }
         
 }
 
@@ -125,18 +136,6 @@
     }
     
 	CGContextStrokePath(context);
-    
-    
-    
-    // Find the range of x.
-    // x = (value at left edge .. value at right edge)
-    // Scale = points per unit.  Example:  1 = 1 point per unit.  5 = 5 points per unit.
-    // To draw, x = units * points per unit.
-    // Solve for x.  The number of points in display / points per unit.
-    
-    
-    // Set path of graph for x.
-    // Draw line.
 }
 
 
