@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RotatingViewController.h"
 
-@interface ViewController : UIViewController <UISplitViewControllerDelegate>
+@interface ViewController : RotatingViewController <UISplitViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *display;
 @property (weak, nonatomic) IBOutlet UILabel *details;

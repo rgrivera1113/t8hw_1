@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Brain.h"
+#import "SplitViewPresenter.h"
 
-@interface GraphVC : UIViewController
+@interface GraphVC : UIViewController <SplitViewPresenter>
 
 @property (nonatomic,strong) NSArray* program; 
 

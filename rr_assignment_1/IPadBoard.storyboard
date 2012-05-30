@@ -32,6 +32,7 @@
                     <toolbarItems/>
                     <connections>
                         <outlet property="graphView" destination="mbA-DH-tZU" id="Slo-Qc-ShG"/>
+                        <outlet property="rotationBar" destination="9lP-SW-hOS" id="n2b-ub-AaH"/>
                     </connections>
                 </viewController>
             </objects>
@@ -437,7 +438,7 @@
                     <navigationItem key="navigationItem" title="Calculator" id="cfE-fY-Rk9">
                         <barButtonItem key="rightBarButtonItem" title="Graph" id="gB7-pZ-o9o">
                             <connections>
-                                <segue destination="IHN-U0-sYm" kind="replace" identifier="ReplaceGraph" splitViewControllerTargetIndex="1" id="tu7-Em-spg"/>
+                                <action selector="drawGraph:" destination="g3c-WR-WfZ" id="Hy9-1a-Jhv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -455,6 +456,10 @@
     <classes>
         <class className="GraphVC" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphVC.h"/>
+            <relationships>
+                <relationship kind="outlet" name="graphView" candidateClass="GraphView"/>
+                <relationship kind="outlet" name="rotationBar" candidateClass="UIToolbar"/>
+            </relationships>
         </class>
         <class className="GraphView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphView.h"/>
@@ -462,7 +467,10 @@
                 <relationship kind="outlet" name="delegate"/>
             </relationships>
         </class>
-        <class className="ViewController" superclassName="UIViewController">
+        <class className="RotatingViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RotatingViewController.h"/>
+        </class>
+        <class className="ViewController" superclassName="RotatingViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="details" candidateClass="UILabel"/>
@@ -475,7 +483,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="tu7-Em-spg"/>
-    </inferredMetricsTieBreakers>
 </document>

@@ -13,12 +13,38 @@
 @interface GraphVC() <GraphViewDelegate>
        
 @property (nonatomic,weak) IBOutlet GraphView *graphView;
+@property (nonatomic,weak) IBOutlet UIToolbar *rotationBar;
 @end
 
 @implementation GraphVC
 
 @synthesize graphView = _graphView;
 @synthesize program = _program;
+@synthesize rotationBar = _rotationBar;
+@synthesize splitViewBarButtonItem = _splitViewBarButtonItem;
+
+
+- (void) handlePopoverBarButton: (UIBarButtonItem*) barButtonItem {
+   
+    NSMutableArray *toolbarItems = [self.rotationBar.items mutableCopy];
+    
+    if (_splitViewBarButtonItem) 
+        [toolbarItems removeObject:_splitViewBarButtonItem];
+    
+    if (barButtonItem) 
+        [toolbarItems insertObject:barButtonItem atIndex:0];
+    
+    self.rotationBar.items = toolbarItems;
+    _splitViewBarButtonItem = barButtonItem;
+
+}
+
+- (void)setSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
+{
+    if (splitViewBarButtonItem != _splitViewBarButtonItem)
+        [self handlePopoverBarButton:splitViewBarButtonItem];
+}
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -64,7 +90,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 // Override setter to set up everything for the custon graph view.

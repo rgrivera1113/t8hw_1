@@ -29,7 +29,6 @@
 - (void)awakeFromNib  // always try to be the split view's delegate
 {
     [super awakeFromNib];
-    self.splitViewController.delegate = self;
 }
 
 
@@ -153,6 +152,27 @@
     }
     
 }
+- (id<SplitViewPresenter>) splitViewGraphDetail {
+    
+    id graphVC = [self.splitViewController.viewControllers lastObject];
+    if (![graphVC conformsToProtocol:@protocol(SplitViewPresenter)]) {
+        graphVC = nil;
+    }
+    return graphVC;
+    
+    
+}
+
+- (void)moveBarButtonItemTo:(id)destinationViewController
+{
+    UIBarButtonItem *splitViewBarButtonItem = [[self splitViewGraphDetail] splitViewBarButtonItem];
+    [[self splitViewGraphDetail] setSplitViewBarButtonItem:nil];
+    if (splitViewBarButtonItem) {
+        [destinationViewController setSplitViewBarButtonItem:splitViewBarButtonItem];
+    }
+}
+
+
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
@@ -162,15 +182,13 @@
         [(GraphVC*) segue.destinationViewController setProgram:[self.brain program]];
         [(GraphVC*) segue.destinationViewController setTitle:[[self.brain class] descriptionOfProgram:[self.brain program]]];
         
-    } else if ([segue.identifier isEqualToString:@"ReplaceGraph"]) {
-        
-        // Set up toolbar and assign data to controller.
-        [segue.destinationViewController setProgram:[self.brain program]];
-        [(GraphVC*) segue.destinationViewController setTitle:[[self.brain class] descriptionOfProgram:[self.brain program]]];
-        
-    }
-    
-    
+    } 
+//else if ([segue.identifier isEqualToString:@"ReplaceGraph"]) {
+//        
+//        [(GraphVC*) segue.destinationViewController setProgram:[self.brain program]];
+//        [(GraphVC*) segue.destinationViewController setTitle:[[self.brain class] descriptionOfProgram:[self.brain program]]];
+//        [self moveBarButtonItemTo:segue.destinationViewController];
+//    }
 }
 
 - (void)viewDidUnload {
@@ -178,41 +196,12 @@
     [super viewDidUnload];
 }
 
-// Called when a button should be added to a toolbar for a hidden view controller
-- (void)splitViewController: (UISplitViewController*)svc 
-     willHideViewController:(UIViewController *)aViewController 
-          withBarButtonItem:(UIBarButtonItem*)barButtonItem 
-       forPopoverController: (UIPopoverController*)pc {
+- (IBAction)drawGraph:(id)sender {
     
-    
+    // Get the detail view controller and draw a new graph.
+    id<SplitViewPresenter> detailView = [self splitViewGraphDetail];
+    [(GraphVC*)detailView setProgram:[self.brain program]];
+    [(GraphVC*)detailView setTitle:[[self.brain class] descriptionOfProgram:[self.brain program]]];
 }
-
-// Called when the view is shown again in the split view, invalidating the button and popover controller
-- (void)splitViewController: (UISplitViewController*)svc 
-     willShowViewController:(UIViewController *)aViewController 
-  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-    
-    
-}
-
-// Called when the view controller is shown in a popover so the delegate can take action like hiding other popovers.
-- (void)splitViewController: (UISplitViewController*)svc 
-          popoverController: (UIPopoverController*)pc 
-  willPresentViewController:(UIViewController *)aViewController {
-    
-    
-    
-}
-
-// Returns YES if a view controller should be hidden by the split view controller in a given orientation.
-// (This method is only called on the leftmost view controller and only discriminates portrait from landscape.)
-- (BOOL)splitViewController: (UISplitViewController*)svc 
-   shouldHideViewController:(UIViewController *)vc 
-              inOrientation:(UIInterfaceOrientation)orientation {
-    
-    return NO;
-    
-}
-
 
 @end
